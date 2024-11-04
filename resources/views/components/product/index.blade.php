@@ -47,7 +47,7 @@
 						<img src="{{ asset('uploads/'.$product->image) }}" alt="Product image" class="w-16 h-10">
 					</td>
 					<td class="px-6 py-4 text-center space-x-2 flex items-center justify-center">
-						<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+						<a href="{{ url('/products/'.$product->id.'/edit') }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
 							@include('components.icons.edit')
 						</a>
 						<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">

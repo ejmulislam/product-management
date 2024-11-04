@@ -67,4 +67,43 @@ class ProductController extends Controller
             return redirect('/products');
         }
     }
+
+    public function edit($id) {
+        $product = Product::find($id);
+        return view('edit', [
+            'product' => $product
+        ]);
+    }
+
+    function update(Request $request, $id) {
+        try {
+            $product = Product::find($id);
+            
+            if($request->hasFile('image')) {
+                File::delete(public_path('uploads/' . $product->image));
+
+                $image = $request->file('image');
+                $fileNameToStore = 'photo-' . md5(uniqid()) . '-' . time() . '.' .
+                $image->getClientOriginalExtension();
+                $image->move(public_path(path: 'uploads'), name: $fileNameToStore);
+            } else {
+                $fileNameToStore = $product->image;
+            }
+            // dd($fileNameToStore);
+            $product->update([
+                'product_id' => $request->product_id,
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,     
+                'stock' => $request->stock,
+                'image' => $fileNameToStore
+            ]);
+
+            sweetalert()->success('Product updated successfully');
+            return redirect('/products');
+        } catch (Exception $e) {
+            sweetalert()->error('Product update failed');
+            return redirect('/products');
+        }
+    }
 }
