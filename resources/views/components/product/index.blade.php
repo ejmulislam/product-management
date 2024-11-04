@@ -1,6 +1,14 @@
 @if (count($products) > 0)
 <div class="flex items-center justify-between mb-6">
 	<h1 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Products</h1>
+	<!-- Search Form -->
+    <form action="{{ url('products') }}" method="GET" class="flex items-center space-x-4">
+        <div class="form-group">
+            <input type="text" name="search" class="py-2 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold py-2 px-4 rounded" placeholder="Search by Product ID or Description" value="{{ request('search') }}">
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
+    </form>
+
 	<a href="{{ url('/products/create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Product</a>
 </div>
 

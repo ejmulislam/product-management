@@ -16,9 +16,17 @@ class ProductController extends Controller
         $sortField = $request->get('sort', 'name');  // Default sorting field is 'name'
         $sortOrder = $request->get('order', 'asc');
         
-        $products = Product::orderBy($sortField, $sortOrder)->get();
+        $search = $request->input('search');
 
-        return view('index', compact('products', 'sortField', 'sortOrder'));
+        $products = Product::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('product_id', 'like', "%{$search}%")
+                            ->orWhere('description', 'like', "%{$search}%");
+            })
+            ->orderBy($sortField, $sortOrder)  // Sorting by chosen field and direction
+            ->paginate(10);  
+
+        return view('index', compact('products',  'sortField', 'sortOrder'));
     }
 
     public function create()
