@@ -12,10 +12,28 @@
 					Id
 				</th>
 				<th scope="col" class="px-6 py-3">
-					Product name
+					<a href="{{ route('products.index', ['sort' => 'name', 'order' => ($sortField == 'name' && $sortOrder == 'asc') ? 'desc' : 'asc']) }}">
+						Name
+						@if($sortField == 'name')
+							@if($sortOrder == 'asc')
+								&uarr; <!-- Up arrow for ascending -->
+							@else
+								&darr; <!-- Down arrow for descending -->
+							@endif
+						@endif
+					</a>
 				</th>
 				<th scope="col" class="px-6 py-3">
-					Price
+					<a href="{{ route('products.index', ['sort' => 'price', 'order' => ($sortField == 'price' && $sortOrder == 'asc') ? 'desc' : 'asc']) }}">
+						Price
+						@if($sortField == 'price')
+							@if($sortOrder == 'asc')
+								&uarr;
+							@else
+								&darr;
+							@endif
+						@endif
+					</a>
 				</th>
 				<th scope="col" class="px-6 py-3">
 					Stock
@@ -50,7 +68,7 @@
 						<a href="{{ url('/products/'.$product->id.'/edit') }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
 							@include('components.icons.edit')
 						</a>
-						<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+						<a href="{{ url('/products/'.$product->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
 							@include('components.icons.show')
 						</a>
 						<form class="mt-1" action="{{ url('products', $product->id) }}" onclick="return confirm('Are you sure?')" method="POST">
@@ -77,3 +95,26 @@
 		</a>
 	</div>
 @endif 
+
+<!-- resources/views/products/index.blade.php -->
+
+{{-- <table>
+    <thead>
+        <t
+
+            <!-- Price column with sorting links -->
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach($products as $product)
+            <tr>
+                <td>{{ $product->name }}</td>
+                <td>{{ $product->price }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table> --}}

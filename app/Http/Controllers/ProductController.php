@@ -11,12 +11,14 @@ use App\Http\Requests\ProductStoreRequest;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('index', [
-            'products' => $products
-        ]);
+        $sortField = $request->get('sort', 'name');  // Default sorting field is 'name'
+        $sortOrder = $request->get('order', 'asc');
+        
+        $products = Product::orderBy($sortField, $sortOrder)->get();
+
+        return view('index', compact('products', 'sortField', 'sortOrder'));
     }
 
     public function create()
@@ -68,6 +70,12 @@ class ProductController extends Controller
         }
     }
 
+    public function show($id) {
+        $product = Product::find($id);
+        return view('show', [
+            'product' => $product
+        ]);
+    }
     public function edit($id) {
         $product = Product::find($id);
         return view('edit', [
