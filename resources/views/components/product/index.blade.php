@@ -53,8 +53,13 @@
 						<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
 							@include('components.icons.show')
 						</a>
-						<a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">
-							@include('components.icons.trash')
+						<form class="mt-1" action="{{ url('products', $product->id) }}" onclick="return confirm('Are you sure?')" method="POST">
+							@csrf
+							@method('DELETE')
+							  <button type="submit" class="delete-button">
+								 @include('components.icons.trash')
+							  </button>
+						 </form>
 						</a>
 					</td>
 				</tr>

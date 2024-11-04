@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductStoreRequest;
-use App\Http\Requests\StoreRequest;
 use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRequest;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\ProductStoreRequest;
 
 class ProductController extends Controller
 {
@@ -49,6 +50,21 @@ class ProductController extends Controller
         } catch (Exception $e) {
             sweetalert()->error('Product create failed');
             return redirect('/products/create');
+        }
+    }
+
+    public function destroy($id) {
+        try {
+            $product = Product::find($id);
+
+            File::delete(public_path('uploads/' . $product->image));
+            $product->delete();
+    
+            sweetalert()->success('Product deleted successfully');
+            return redirect('/products');
+        } catch (Exception $e) {
+            sweetalert()->error('Product delete failed');
+            return redirect('/products');
         }
     }
 }
